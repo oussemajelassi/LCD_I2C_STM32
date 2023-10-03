@@ -1,0 +1,25 @@
+16:18:55 **** Incremental Build of configuration Debug for project LCD_I2C_STM32_CM7 ****
+make -j8 all 
+arm-none-eabi-g++ "../Core/Src/LCD_I2C.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H745xx -c -I../Core/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/LCD_I2C.d" -MT"Core/Src/LCD_I2C.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/LCD_I2C.o"
+../Core/Src/LCD_I2C.cpp: In member function 'LCD_I2C_STATE LCD_I2C::LCD_I2C_INIT()':
+../Core/Src/LCD_I2C.cpp:39:1: warning: no return statement in function returning non-void [-Wreturn-type]
+   39 | }
+      | ^
+../Core/Src/LCD_I2C.cpp: In member function 'LCD_I2C_STATE LCD_I2C::LCD_I2C_SEND_DATA(char)':
+../Core/Src/LCD_I2C.cpp:69:11: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+   69 |   uint8_t data [ 4 ] ;
+      |           ^~~~
+arm-none-eabi-g++ -o "LCD_I2C_STM32_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\ousjl\Desktop\stm\LCD_I2C_STM32\LCD_I2C_STM32\CM7\STM32H745ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LCD_I2C_STM32_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: LCD_I2C_STM32_CM7.elf
+ 
+arm-none-eabi-size   LCD_I2C_STM32_CM7.elf 
+arm-none-eabi-objdump -h -S  LCD_I2C_STM32_CM7.elf  > "LCD_I2C_STM32_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+  12840	     24	   1648	  14512	   38b0	LCD_I2C_STM32_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: LCD_I2C_STM32_CM7.list
+ 
+
+16:18:58 Build Finished. 0 errors, 2 warnings. (took 2s.616ms)
+

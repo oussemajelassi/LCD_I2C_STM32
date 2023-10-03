@@ -1,0 +1,20 @@
+/*
+ * LCD_I2C.cpp
+ *
+ *  Created on: Oct 2, 2023
+ *      Author: Flooki
+ */
+
+#include "LCD_I2C.h"
+#include "stdint.h"
+
+LCD_I2C_STATE LCD_I2C::LCD_I2C_INIT ( void )
+{
+
+}
+
+
+LCD_I2C_STATE LCD_I2C::LCD_I2C_SEND_CMD (char Command )
+{
+	uint8_t
+}

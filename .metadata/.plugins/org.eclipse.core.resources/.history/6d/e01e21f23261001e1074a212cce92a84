@@ -1,0 +1,45 @@
+/*
+ * LCD_I2C.cpp
+ *
+ *  Created on: Oct 2, 2023
+ *      Author: Flooki
+ */
+
+#include "LCD_I2C.h"
+#include "stdint.h"
+
+
+
+extern I2C_HandleTypeDef hi2c1;
+
+
+LCD_I2C_STATE LCD_I2C::LCD_I2C_INIT ( void )
+{
+
+}
+
+
+/*
+ * We Are sending a command to the screen, The screen takes on 4 bits data each time
+ * We are sending command so RS Bit must be set to 0
+ * Each time we are sending four bits we need to alter EN bit between 1 and 0
+ */
+
+LCD_I2C_STATE LCD_I2C::LCD_I2C_SEND_CMD (char Command )
+{
+	char command_low , command_high ;
+	uint8_t data [ 4 ] ;
+	command_high = ( ( Command >> 4 ) & (0b11110000) ) ;
+	command_low =  ( Command & 0b11110000 ) ;
+
+	data [ 0 ] = ( command_high | LCD_I2C_SEND_CMD_EN_HIGH ) ;
+	data [ 1 ] = ( command_high | LCD_I2C_SEND_CMD_EN_LOW  ) ;
+	data [ 2 ] = ( command_low | LCD_I2C_SEND_CMD_EN_HIGH ) ;
+	data [ 3 ] = ( command_low | LCD_I2C_SEND_CMD_EN_LOW  ) ;
+
+
+
+
+
+
+}
