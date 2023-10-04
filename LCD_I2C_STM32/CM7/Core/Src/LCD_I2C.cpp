@@ -19,25 +19,30 @@ LCD_I2C_STATE LCD_I2C::LCD_I2C_INIT ( void )
 {
 
 	HAL_Delay(50);  // wait for >40ms
-	LCD_I2C::LCD_I2C_SEND_CMD (0x30);
+	this->LCD_I2C_SEND_CMD (0x30);
 	HAL_Delay(5);  // wait for >4.1ms
-	LCD_I2C::LCD_I2C_SEND_CMD (0x30);
+	this->LCD_I2C_SEND_CMD (0x30);
 	HAL_Delay(1);  // wait for >100us
-	LCD_I2C::LCD_I2C_SEND_CMD (0x30);
+	this->LCD_I2C_SEND_CMD (0x30);
 	HAL_Delay(10);
-	LCD_I2C::LCD_I2C_SEND_CMD (0x20);  // 4bit mode
+	this->LCD_I2C_SEND_CMD (0x20);  // 4bit mode
 	HAL_Delay(10);
 
 	// Dislay Initialisation
-	LCD_I2C::LCD_I2C_SEND_CMD (0x28); // Function set --> DL=0 (4 bit mode), N = 1 (2 line display) F = 0 (5x8 characters)
+	this->LCD_I2C_SEND_CMD (0x28); // Function set --> DL=0 (4 bit mode), N = 1 (2 line display) F = 0 (5x8 characters)
 	HAL_Delay(1);
-	LCD_I2C::LCD_I2C_SEND_CMD (0x08); //Display on/off control --> D=0,C=0, B=0  ---> display off
+	this->LCD_I2C_SEND_CMD (0x08); //Display on/off control --> D=0,C=0, B=0  ---> display off
 	HAL_Delay(1);
-	LCD_I2C::LCD_I2C_SEND_CMD (0x01);  // clear display
+	this->LCD_I2C_SEND_CMD (0x01);  // clear display
 	HAL_Delay(1);
-	LCD_I2C::LCD_I2C_SEND_CMD (0x06); //Entry mode set --> I/D = 1 (increment cursor) & S = 0 (no shift)
+	this->LCD_I2C_SEND_CMD (0x06); //Entry mode set --> I/D = 1 (increment cursor) & S = 0 (no shift)
 	HAL_Delay(1);
-	LCD_I2C::LCD_I2C_SEND_CMD (0x0C); //Display on/off control --> D = 1, C and B = 0. (Cursor and blink, last two bits)
+	this->LCD_I2C_SEND_CMD (0x0C); //Display on/off control --> D = 1, C and B = 0. (Cursor and blink, last two bits)
+
+	this->LCD_I2C_SET_FIRST_LINE(" ");
+	this->LCD_I2C_SET_SECOND_LINE(" ");
+	this->LCD_I2C_SET_THIRD_LINE(" ");
+	this->LCD_I2C_SET_FOURTH_LINE(" ");
 
 	return ( LCD_I2C_OKAY ) ;
 }
@@ -86,25 +91,25 @@ LCD_I2C_STATE LCD_I2C::LCD_I2C_SEND_DATA (char Command )
 
 LCD_I2C::LCD_I2C( void )
 {
-	strcpy(LCD_I2C::LCD_I2C_FIRST_LINE  ,  "" ) ;
-	strcpy(LCD_I2C::LCD_I2C_SECOND_LINE ,  "" ) ;
-	strcpy(LCD_I2C::LCD_I2C_THIRD_LINE  ,  "" ) ;
-	strcpy(LCD_I2C::LCD_I2C_FOURTH_LINE ,  "" ) ;
+	strcpy(this->LCD_I2C_FIRST_LINE  ,  " " ) ;
+	strcpy(this->LCD_I2C_SECOND_LINE ,  " " ) ;
+	strcpy(this->LCD_I2C_THIRD_LINE  ,  " " ) ;
+	strcpy(this->LCD_I2C_FOURTH_LINE ,  " " ) ;
 
 }
 LCD_I2C_STATE LCD_I2C::LCD_I2C_SEND_STRING (char * str)
 {
-	while (*str)  LCD_I2C::LCD_I2C_SEND_DATA(*str ++ ) ;
+	while (*str)  this->LCD_I2C_SEND_DATA(*str ++ ) ;
 	return ( LCD_I2C_OKAY ) ;
 }
 
 void LCD_I2C::LCD_I2C_SET_FIRST_LINE( const char * Line )
 {
-	strcpy(LCD_I2C::LCD_I2C_FIRST_LINE ,  Line ) ;
+	strcpy(this->LCD_I2C_FIRST_LINE ,  Line ) ;
 }
 void LCD_I2C::LCD_I2C_SET_SECOND_LINE( const char * Line )
 {
-	strcpy(LCD_I2C::LCD_I2C_SECOND_LINE ,  Line ) ;
+	strcpy(this->LCD_I2C_SECOND_LINE ,  Line ) ;
 }
 void LCD_I2C::LCD_I2C_SET_THIRD_LINE( const char * Line )
 {
@@ -116,11 +121,36 @@ void LCD_I2C::LCD_I2C_SET_FOURTH_LINE( const char * Line )
 }
 void LCD_I2C::LCD_I2C_CLEAR( void )
 {
-	LCD_I2C::LCD_I2C_SEND_CMD(LCD_I2C_CLEAR_CMD) ;
-	LCD_I2C::LCD_I2C_SEND_CMD(LCD_I2C_RETURN_HOME_CMD) ;
+	this->LCD_I2C_SEND_CMD(LCD_I2C_CLEAR_CMD) ;
+	this->LCD_I2C_SEND_CMD(LCD_I2C_RETURN_HOME_CMD) ;
 }
 void LCD_I2C::LCD_I2C_UPDATE_SCREEN ( void )
 {
+	//this->LCD_I2C_CLEAR() ;
+	this->LCD_I2C_SEND_CMD(LCD_I2C_CURSOR_FIRST_LINE);
+	this->LCD_I2C_SEND_STRING( this->LCD_I2C_GET_FIRST_LINE() ) ;
+	this->LCD_I2C_SEND_CMD (LCD_I2C_CURSOR_SECOND_LINE);
+	this->LCD_I2C_SEND_STRING( this->LCD_I2C_GET_SECOND_LINE() ) ;
+	this->LCD_I2C_SEND_CMD (LCD_I2C_CURSOR_THIRD_LINE);
+	this->LCD_I2C_SEND_STRING( this->LCD_I2C_GET_THIRD_LINE() ) ;
+	this->LCD_I2C_SEND_CMD (LCD_I2C_CURSOR_FOURTH_LINE);
+	this->LCD_I2C_SEND_STRING( this->LCD_I2C_GET_FOURTH_LINE() ) ;
 
 }
 
+char * LCD_I2C::LCD_I2C_GET_FIRST_LINE (void)
+{
+	return ( this->LCD_I2C_FIRST_LINE ) ;
+}
+char * LCD_I2C::LCD_I2C_GET_SECOND_LINE (void)
+{
+	return ( this->LCD_I2C_SECOND_LINE ) ;
+}
+char * LCD_I2C::LCD_I2C_GET_THIRD_LINE (void)
+{
+	return ( this->LCD_I2C_THIRD_LINE ) ;
+}
+char * LCD_I2C::LCD_I2C_GET_FOURTH_LINE (void)
+{
+	return ( this->LCD_I2C_FOURTH_LINE ) ;
+}
