@@ -84,13 +84,43 @@ LCD_I2C_STATE LCD_I2C::LCD_I2C_SEND_DATA (char Command )
 	else {return ( LCD_I2C_FAIL) ; }
 }
 
+LCD_I2C::LCD_I2C( void )
+{
+	strcpy(LCD_I2C::LCD_I2C_FIRST_LINE  ,  "" ) ;
+	strcpy(LCD_I2C::LCD_I2C_SECOND_LINE ,  "" ) ;
+	strcpy(LCD_I2C::LCD_I2C_THIRD_LINE  ,  "" ) ;
+	strcpy(LCD_I2C::LCD_I2C_FOURTH_LINE ,  "" ) ;
 
+}
 LCD_I2C_STATE LCD_I2C::LCD_I2C_SEND_STRING (char * str)
 {
 	while (*str)  LCD_I2C::LCD_I2C_SEND_DATA(*str ++ ) ;
+	return ( LCD_I2C_OKAY ) ;
 }
 
-void LCD_I2C::LCD_I2C_SET_FIRST_LINE( const char * )
+void LCD_I2C::LCD_I2C_SET_FIRST_LINE( const char * Line )
+{
+	strcpy(LCD_I2C::LCD_I2C_FIRST_LINE ,  Line ) ;
+}
+void LCD_I2C::LCD_I2C_SET_SECOND_LINE( const char * Line )
+{
+	strcpy(LCD_I2C::LCD_I2C_SECOND_LINE ,  Line ) ;
+}
+void LCD_I2C::LCD_I2C_SET_THIRD_LINE( const char * Line )
+{
+	strcpy(LCD_I2C::LCD_I2C_THIRD_LINE ,  Line ) ;
+}
+void LCD_I2C::LCD_I2C_SET_FOURTH_LINE( const char * Line )
+{
+	strcpy(LCD_I2C::LCD_I2C_FOURTH_LINE ,  Line ) ;
+}
+void LCD_I2C::LCD_I2C_CLEAR( void )
+{
+	LCD_I2C::LCD_I2C_SEND_CMD(LCD_I2C_CLEAR_CMD) ;
+	LCD_I2C::LCD_I2C_SEND_CMD(LCD_I2C_RETURN_HOME_CMD) ;
+}
+void LCD_I2C::LCD_I2C_UPDATE_SCREEN ( void )
 {
 
 }
+
