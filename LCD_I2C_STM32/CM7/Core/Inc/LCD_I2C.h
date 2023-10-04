@@ -27,14 +27,21 @@ typedef enum
 
 class LCD_I2C
 {
+public :
 	char * LCD_I2C_FIRST_LINE  ;
 	char * LCD_I2C_SECOND_LINE ;
 	char * LCD_I2C_THIRD_LINE  ;
 	char * LCD_I2C_FOURTH_LINE ;
-
+public :
+	LCD_I2C_STATE LCD_I2C_SEND_STRING (char * str) ;
 	LCD_I2C_STATE LCD_I2C_SEND_CMD  (char Command ) ;
 	LCD_I2C_STATE LCD_I2C_SEND_DATA (char Command ) ;
 	LCD_I2C_STATE LCD_I2C_INIT (void ) ;
+	void LCD_I2C_SET_FIRST_LINE (void) ;
+	void LCD_I2C_SET_SECOND_LINE (void) ;
+	void LCD_I2C_SET_THIRD_LINE (void) ;
+	void LCD_I2C_SET_FOURTH_LINE (void) ;
+
 
 };
 
