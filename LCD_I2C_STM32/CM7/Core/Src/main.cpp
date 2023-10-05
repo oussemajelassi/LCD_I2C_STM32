@@ -50,6 +50,7 @@ I2C_HandleTypeDef hi2c1;
 
 /* USER CODE BEGIN PV */
 //LCD_I2C Eurobot_I2C_Screen ;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,7 +73,8 @@ static void MX_I2C1_Init(void);
 int main(void)
 {
 	/* USER CODE BEGIN 1 */
-	LCD_I2C EUROBOT_Screen ;
+	LCD_I2C EUROBOT_Screen  ;
+
 	/* USER CODE END 1 */
 	/* MCU Configuration--------------------------------------------------------*/
 
@@ -95,11 +97,23 @@ int main(void)
 	MX_I2C1_Init();
 	/* USER CODE BEGIN 2 */
 	EUROBOT_Screen.LCD_I2C_INIT() ;
-	EUROBOT_Screen.LCD_I2C_SET_FIRST_LINE("Flooka Patron") ;
-	EUROBOT_Screen.LCD_I2C_SEND_CMD(0x80|0x00);
+	HAL_Delay(150);
+	EUROBOT_Screen.LCD_I2C_SET_FIRST_LINE("Flooka") ;
+	EUROBOT_Screen.LCD_I2C_SET_SECOND_LINE("patron") ;
+	EUROBOT_Screen.LCD_I2C_SET_THIRD_LINE("WEWEWE Patron") ;
+	EUROBOT_Screen.LCD_I2C_SET_FOURTH_LINE("AAAA Patron") ;
 
-	EUROBOT_Screen.LCD_I2C_SEND_STRING(EUROBOT_Screen.LCD_I2C_FIRST_LINE);
-	EUROBOT_Screen.LCD_I2C_CLEAR() ;
+	//EUROBOT_Screen.LCD_I2C_SEND_CMD(0x80|0x00);
+	//EUROBOT_Screen.LCD_I2C_SEND_STRING(EUROBOT_Screen.LCD_I2C_FIRST_LINE);
+	//EUROBOT_Screen.LCD_I2C_SET_SECOND_LINE("EUROBOT") ;
+	//EUROBOT_Screen.LCD_I2C_SEND_CMD (LCD_I2C_CURSOR_SECOND_LINE);
+	//EUROBOT_Screen.LCD_I2C_SEND_STRING(EUROBOT_Screen.LCD_I2C_SECOND_LINE);
+
+	EUROBOT_Screen.LCD_I2C_UPDATE_SCREEN() ;
+	//EUROBOT_Screen.LCD_I2C_SEND_CMD(0x80|0x00);
+
+	//EUROBOT_Screen.LCD_I2C_SEND_STRING(EUROBOT_Screen.LCD_I2C_FIRST_LINE);
+	//EUROBOT_Screen.LCD_I2C_CLEAR() ;
 
 
 
